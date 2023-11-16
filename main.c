@@ -49,6 +49,14 @@ int main() {
     align_and_display(list_test);
     printf("\n\n\n\n\n");
     display_all_levels(list_test);
+    printf("\n\n\n\n\n");
+
+    sorted_insert(list_test, create_cell(7 ,2));
+
+    printf("\n\n\n\n\n");
+    display_all_levels(list_test);
+    printf("\n\n\n\n\n");
+    align_and_display(list_test);
 
 
 
