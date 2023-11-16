@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/ilyes/OneDrive/Bureau/cours 2023-2024/semeste 1/data structure and algorihmics 2/Project Diary management
+# Install script for directory: C:/Users/ilyes/OneDrive/Bureau/cours 2023-2024/semeste 1/data structure and algorihmics 2/MonopolyStarWars
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/ilyes/OneDrive/Bureau/cours 2023-2024/semeste 1/data structure and algorihmics 2/Project Diary management/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/ilyes/OneDrive/Bureau/cours 2023-2024/semeste 1/data structure and algorihmics 2/MonopolyStarWars/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
