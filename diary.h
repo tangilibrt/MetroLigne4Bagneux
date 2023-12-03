@@ -37,7 +37,7 @@ struct diary { // level list
 } typedef diary;
 
 
-t_d_list *create_diary(int n);
+diary *create_diary(int n);
 
 
 
