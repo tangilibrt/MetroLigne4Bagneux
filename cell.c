@@ -7,18 +7,18 @@ t_d_cell *create_cell(int value, int levels) {
 
     t_d_cell *new_cell = (t_d_cell *)malloc(sizeof(t_d_cell));
 
-    //securiter du maloc
+    //sécurité du maloc
     if (new_cell == NULL) {
-        printf("t'a pas de memoire dans ton pc la hont");
+        printf("t'a pas de memoire dans ton pc la honte");
         return NULL;
     }
     new_cell->levels = levels;
-    // arrey de next
+    // array de next
     new_cell->next = (t_d_cell **)malloc(levels * sizeof(t_d_cell *));
 
     if (new_cell->next == NULL) {
         free(new_cell);
-        printf("t'a pas de memoire dans ton pc la hont");
+        printf("t'a pas de memoire dans ton pc la honte");
         return NULL;
     }
 
@@ -30,3 +30,4 @@ t_d_cell *create_cell(int value, int levels) {
 
     return new_cell;
 }
+

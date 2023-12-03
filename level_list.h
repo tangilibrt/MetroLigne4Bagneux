@@ -9,7 +9,9 @@ typedef struct s_d_list {
 } t_d_list;
 
 t_d_list *create_mt_list(int max_levels);
+t_d_list *create_mt_list_from_n(int n);
 void insert_cell_at_a_head(t_d_list *list, t_d_cell *cell);
+void insert_cell_at_a_particular_head(t_d_list *list, t_d_cell *cell, int level);
 void display_a_level(t_d_list *list, int level);
 void display_all_levels(t_d_list *list);
 

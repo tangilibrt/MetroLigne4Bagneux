@@ -8,8 +8,8 @@
 
 
 typedef struct s_d_cell {
-    int value;
-    int levels;
+    int value;  // valeur de la cellule
+    int levels; // nombre de niveau
     struct s_d_cell **next; // array de pointer
 } t_d_cell;
 
