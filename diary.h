@@ -33,7 +33,7 @@ struct entry {
 } typedef entry;
 
 struct diary { // level list
-    entry *list_entries;
+    entry **list_entries; //equivalent of heads on the level_list.h
 } typedef diary;
 
 
