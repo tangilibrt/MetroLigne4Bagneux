@@ -25,4 +25,6 @@ void sorted_insert(t_d_list *list, t_d_cell *cell);
 int classic_search(t_d_list *list, int value);
 
 int optimized_search(t_d_list *list, int value);
+int research_time(t_d_list *list, int nbr_of_research, int n);
+
 #endif //PROJECT_DIARY_MANAGEMENT_LEVEL_LIST_H

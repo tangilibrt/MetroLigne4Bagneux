@@ -2,6 +2,8 @@
 #include "level_list.h"
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
+#include <time.h>
 
 
 t_d_list *create_mt_list(int max){
@@ -32,11 +34,10 @@ t_d_list *create_mt_list_from_n(int n) {
             }
 
         }
-
         count *= 2;
     }
 
-    align_and_display(list);
+
     return list;
 }
 
@@ -185,7 +186,6 @@ int optimized_search(t_d_list *list, int value){
         if (current != NULL) {
 
             if (current->value == value) {
-                printf("found after %d steps at level %d\n", complexity_counter, level);
                 return complexity_counter;
             } else if (current->value < value) {
                 prev = current;
@@ -208,6 +208,32 @@ int optimized_search(t_d_list *list, int value){
     }
     return -1 ;
 
+}
+
+int research_time(t_d_list *list, int nbr_of_research, int n) {
+    srand(time(NULL));
+    clock_t start_time_classic, end_time_classic, start_time_optimized, end_time_optimized;
+    double cpu_time_used_classic, cpu_time_used_optimized;
+
+    start_time_classic = clock();
+    for (int i= 0; i < nbr_of_research; i++) {
+        // Générer une valeur aléatoire entre 0 et 2^N-1 pour chercher nbr_of_research fois une valeur aleatoire dans la liste
+        int value = rand() % (int)pow(2, n)-1;
+        int complexity_classic = classic_search(list, value);
+    }
+    end_time_classic = clock();
+    cpu_time_used_classic = ((double) (end_time_classic - start_time_classic)) / CLOCKS_PER_SEC;
+    printf("CPU time used for classic search: %f\n", cpu_time_used_classic);
+
+    start_time_optimized = clock();
+    for (int i= 0; i < nbr_of_research; i++) {
+        // Générer une valeur aléatoire entre 0 et 2^N-1 pour chercher 100x une valeur aleatoire dans la liste
+        int value = rand() % (int)pow(2, n)-1;
+        int complexity_optimized = optimized_search(list, value);
+    }
+    end_time_optimized = clock();
+    cpu_time_used_optimized = ((double) (end_time_optimized - start_time_optimized)) / CLOCKS_PER_SEC;
+    printf("CPU time used for optimized search: %f\n", cpu_time_used_optimized);
 }
 
 void free_level(t_d_cell *head) {

@@ -4,12 +4,18 @@
 #include <stdio.h>
 #include <time.h>
 
+
+int N = 10;
+
 int main() {
-    t_d_list *list_test = create_mt_list_from_n(10);
+    t_d_list *list_test = create_mt_list_from_n(N);
+    align_and_display(list_test);
 //    int max_levels = 10;
-//
-//    // Initialiser le générateur de nombres aléatoires
-//    srand((unsigned int)time(NULL));
+
+    // Initialiser le générateur de nombres aléatoires
+    int search_time = research_time(list_test, 100000, N);
+
+
 //
 //    // Créer une liste multi-niveaux vide
 //    t_d_list *list_test = create_mt_list(max_levels);
@@ -39,19 +45,21 @@ int main() {
 //    align_and_display(list_test);
 //    printf("\n\n\n\n\n");
 //
-    int search_value = 256;
-    int complexity_classic = classic_search(list_test, search_value);
-    if (complexity_classic == -1) {
-        printf("Value %d not found.\n", search_value);
-    } else {
-        printf("Value %d found in %d steps with classical search.\n", search_value, complexity_classic);
-    }
-    int optimized_complexity = optimized_search(list_test, search_value);
-    if (optimized_complexity == -1) {
-        printf("Value %d not found.\n", search_value);
-    } else {
-        printf("Value %d found in %d steps with optimized search\n", search_value, optimized_complexity);
-    }
+
+
+//    int search_value = 256;
+//    int complexity_classic = classic_search(list_test, search_value);
+//    if (complexity_classic == -1) {
+//        printf("Value %d not found.\n", search_value);
+//    } else {
+//        printf("Value %d found in %d steps with classical search.\n", search_value, complexity_classic);
+//    }
+//    int optimized_complexity = optimized_search(list_test, search_value);
+//    if (optimized_complexity == -1) {
+//        printf("Value %d not found.\n", search_value);
+//    } else {
+//        printf("Value %d found in %d steps with optimized search\n", search_value, optimized_complexity);
+//    }
 //
 
     return 0;
