@@ -12,7 +12,8 @@ int main() {
     align_and_display(list_test);
 //    int max_levels = 10;
 
-    // Initialiser le générateur de nombres aléatoires
+//  // Initialiser le générateur de nombres aléatoires
+//    srand(time(NULL));
     int search_time = research_time(list_test, 100000, N);
 
 
