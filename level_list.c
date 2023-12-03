@@ -70,42 +70,81 @@ void align_and_display(t_d_list *list) {
     }
 }
 
-
-
 void sorted_insert(t_d_list *list, t_d_cell *cell) {
-
-    // Tableau de pointeurs pour garder une trace des points d'insertion à chaque niveau
-    t_d_cell *update[list->max_levels];
-    for (int i = 0; i < list->max_levels; i++) {
-        update[i] = NULL;
-    }
-
-    // Parcourir la liste à partir du niveau le plus élevé
-    for (int level = list->max_levels - 1; level >= 0; level--) {
-        t_d_cell *current = list->heads[level];
-        while (current != NULL && current->value > cell->value) {
-            // Continuer à avancer dans la liste
-            update[level] = current;
-            current = current->next[level];
+    for (int i = 0; i < cell->levels; i++) {
+        t_d_cell **temp = &(list->heads[i]);
+        while (*temp && (*temp)->value < cell->value) {
+            temp = &((*temp)->next[i]);
         }
-
-        // Si la cellule a un niveau suffisant, la mettre à jour pour l'insertion
-        if (level < cell->levels) {
-            if (update[level] == NULL) {
-                // Insertion en tête de liste à ce niveau
-                cell->next[level] = list->heads[level];
-                list->heads[level] = cell;
-            } else {
-                // Insertion au milieu ou à la fin de la liste à ce niveau
-                cell->next[level] = update[level]->next[level];
-                update[level]->next[level] = cell;
-            }
-        }
+        cell->next[i] = *temp;
+        *temp = cell;
     }
 }
 
 
 
+int classic_search(t_d_list *list, int value) {
+    t_d_cell *current = list->heads[0];
+    while (current != NULL) {
+        if (current->value == value) {
+            return 1; // Found
+        }
+        current = current->next[0];
+    }
+    return 0; // Not found
+}
+
+int optimized_searh(t_d_list *list, int value) {
+    int level = list->max_levels - 1;
+    printf( "valeur head 0 etc (%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)\n",list->heads[0]->value,list->heads[1]->value,list->heads[2]->value,list->heads[3]->value,list->heads[4]->value,list->heads[5]->value,list->heads[6]->value,list->heads[7]->value,list->heads[8]->value,list->heads[9]->value);
+    while(list->heads[level] == NULL){level--;}
+    t_d_cell *current = list->heads[level];
+    printf("level%d, valu%d\n", current->levels, current->value);
+    while (level >= 0) {
+        while (current != NULL && current->value < value) {
+            current = current->next[level];
+            printf("level%d, valu%d\n", current->levels, current->value);
+        }
+        if (current != NULL && current->value == value) {
+            printf("trouver au niveau %d\n",level);
+            return 1; // Found
+        }
+        level--;
+        if (level >= 0 && current != NULL) {
+            current = list->heads[level];
+            printf("level%d, valu%d\n", current->levels, current->value);
+        }
+    }
+    return 0; // Not found
+}
+int optimized_search(t_d_list *list, int value){
+    int level = list->max_levels -1 ;
+    while(list->heads[level] == NULL){
+        level--;
+    }
+    t_d_cell *current = list->heads[level];
+    t_d_cell * prev = current ;
+    while (level >= 0) {
+        if (current != NULL) {
+            if (current->value == value) {
+                printf("Trouver au niveau %d\n", level);
+                return 1;
+            } else if (current->value < value) {
+                prev = current;
+                current = current->next[level];
+
+            } else {
+                level--;
+                current = prev;
+            }
+        } else if (current == NULL) {
+            level--;
+            current = prev;
+        }
+    }
+    return 0 ;
+
+}
 
 void free_level(t_d_cell *head) {
     while (head) {

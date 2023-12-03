@@ -5,7 +5,7 @@
 #include <time.h>
 
 int main() {
-    int max_levels = 5;
+    int max_levels = 10;
 
     // Initialiser le générateur de nombres aléatoires
     srand((unsigned int)time(NULL));
@@ -16,17 +16,8 @@ int main() {
     printf("Empty level list:\n");
     display_all_levels(list_test);
 
-    // Insérer une cellule avec la valeur 1 à tous les niveaux
-    t_d_cell *cell_1 = create_cell(1, max_levels);
-    if (!cell_1) {
-        printf("Failed to create a cell with value 1.\n");
-    } else {
-        insert_cell_at_a_head(list_test, cell_1);
-    }
 
-    // Insérer des cellules avec des valeurs aléatoires entre 2 et 3
-    // et avec un nombre aléatoire de niveaux pour chaque cellule
-    for (int value = 2; value < 3; value++) {
+    for (int value = 11; value > 0 ; value--) {
         int cell_levels = rand() % max_levels + 1; // 1 à max_levels
         t_d_cell *new_cell = create_cell(value, cell_levels);
         if (!new_cell) {
@@ -36,28 +27,20 @@ int main() {
         }
     }
 
-    // Insérer une cellule avec la valeur 3 à tous les niveaux
-    t_d_cell *cell_3 = create_cell(3, max_levels);
-    if (!cell_3) {
-        printf("Failed to create a cell with value 3.\n");
-    } else {
-        insert_cell_at_a_head(list_test, cell_3);
-    }
 
     // Afficher la liste après les insertions
     printf("\nList after inserting cells:\n");
     align_and_display(list_test);
     printf("\n\n\n\n\n");
-    display_all_levels(list_test);
-    printf("\n\n\n\n\n");
 
-    sorted_insert(list_test, create_cell(7 ,2));
 
-    printf("\n\n\n\n\n");
-    display_all_levels(list_test);
-    printf("\n\n\n\n\n");
+    printf("\nList after inserting cells:\n");
     align_and_display(list_test);
+    printf("\n\n\n\n\n");
 
+    int search_value = 6;
+    printf("Classic search for %d: %s\n", search_value, classic_search(list_test, search_value) ? "Found" : "Not Found");
+    printf("Optimized search for %d: %s\n", search_value, optimized_search(list_test, search_value) ? "Found" : "Not Found");
 
 
     return 0;

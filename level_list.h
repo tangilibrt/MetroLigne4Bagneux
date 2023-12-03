@@ -20,4 +20,7 @@ int look_for_value(t_d_list *list, int level ,int value );
 
 void sorted_insert(t_d_list *list, t_d_cell *cell);
 
+int classic_search(t_d_list *list, int value);
+
+int optimized_search(t_d_list *list, int value);
 #endif //PROJECT_DIARY_MANAGEMENT_LEVEL_LIST_H
