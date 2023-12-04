@@ -14,31 +14,34 @@
 
 // we will create a list of fixed depth n = 4
 
-struct contact {
+typedef struct contact {
     char *name;
     char *surname;
-} typedef *p_contact;
+} *p_contact;
 
-struct appointment {
+typedef struct appointment {
     char date[10]; // format : dd/mm/yyyy
     char hour[5]; // format : hh:mm
     char length[5]; // format : hh:mm
     char *purpose;
-} typedef appointment;
+} appointment;
 
-struct entry {
+typedef struct entry {
     p_contact contact;
     //list of appointments
     appointment *list_appointments;
-} typedef entry;
+    struct entry **next;
+} entry;
 
-struct diary { // level list
+typedef struct diary { // level list
     entry **list_entries; //equivalent of heads on the level_list.h
-} typedef diary;
+} diary;
 
 
-diary *create_diary(int n);
-
+diary *create_diary();
+entry *create_entry(char *name, char *surname);
+void add_entry(diary *diary, entry *entry);
+void align_and_display_diary(diary *diary);
 
 
 

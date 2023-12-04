@@ -3,49 +3,19 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <time.h>
+#include "diary.h"
+
 
 
 int N = 10;
 
 int main() {
-    t_d_list *list_test = create_mt_list_from_n(N);
-    align_and_display(list_test);
-//    int max_levels = 10;
-
-//  // Initialiser le générateur de nombres aléatoires
-//    srand(time(NULL));
-    int search_time = research_time(list_test, 100000, N);
-
-
-//
-//    // Créer une liste multi-niveaux vide
-//    t_d_list *list_test = create_mt_list(max_levels);
-//
-//    printf("Empty level list:\n");
-//    display_all_levels(list_test);
-//
-//
-//    for (int value = 11; value > 0 ; value--) {
-//        int cell_levels = rand() % max_levels + 1; // 1 à max_levels
-//        t_d_cell *new_cell = create_cell(value, cell_levels);
-//        if (!new_cell) {
-//            printf("Failed to create a cell with value %d.\n", value);
-//        } else {
-//            insert_cell_at_a_head(list_test, new_cell);
-//        }
-//    }
-//
-//
-//    // Afficher la liste après les insertions
-//    printf("\nList after inserting cells:\n");
-//    display_all_levels(list_test);
-//    printf("\n\n\n\n\n");
-//
-//
-//    printf("\nList after inserting cells:\n");
+//    t_d_list *list_test = create_mt_list_from_n(N);
 //    align_and_display(list_test);
-//    printf("\n\n\n\n\n");
 //
+//    int search_time = research_time(list_test, 100000, N);
+
+// ----------------------------------------------------------------------------------------------------------
 
 
 //    int search_value = 256;
@@ -62,6 +32,19 @@ int main() {
 //        printf("Value %d found in %d steps with optimized search\n", search_value, optimized_complexity);
 //    }
 //
+// ----------------------------------------------------------------------------------------------------------
+//                     Part 3 : Diary
+// ----------------------------------------------------------------------------------------------------------
+    entry *entry1 = create_entry("nicolas","flasque");
+    entry *entry2 = create_entry("nils","foincoin");
+    entry *entry3 = create_entry("tanguy","flibert");
+    entry *entry4 = create_entry("ilyes","ben");
+    diary *diary1 = create_diary();
+    add_entry(diary1,entry1);
+    add_entry(diary1,entry2);
+    add_entry(diary1,entry3);
+    add_entry(diary1,entry4);
+    align_and_display_diary(diary1);
 
     return 0;
 }
