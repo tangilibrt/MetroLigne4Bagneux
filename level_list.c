@@ -7,13 +7,34 @@
 
 
 t_d_list *create_mt_list(int max){
+    """Create an empty list with max levels"
+    "takes as input the max number of levels"
+    "returns a pointer to the list"
+
+    "example:"
+    ">>> create_mt_list(3)"
+    ">>> list->max_levels = 3"
+    ">>> list->heads = [NULL, NULL, NULL]";
 
     t_d_list *list = (t_d_list *)malloc(sizeof(t_d_list));
     list->heads = (t_d_cell **)calloc(max, sizeof(t_d_cell *));
     list->max_levels = max ;
+    return list;
 }
 
 t_d_list *create_mt_list_from_n(int n) {
+    """Create a sorted level list with n levels and (2^n)-1 cells (the first cell is at index 1)"
+    "takes as input the max number of levels"
+    "returns a pointer to the list"
+
+    "example:"
+    ">>> create_mt_list_from_n(3)"
+    ">>> list->max_levels = 3"
+    ">>> allign_and_display(list)"
+    ">>> [list head_0]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n"
+    "    [list head_1]--------->[ 2]--------->[ 4]--------->[ 6]-- >NULL\n"
+    "    [list head_2]----------------------->[ 4]---------------- >NULL";
+
     t_d_list *list = (t_d_list *)malloc(sizeof(t_d_list));
     list->heads = (t_d_cell **)calloc(n, sizeof(t_d_cell *));
     list->max_levels = n;
@@ -42,6 +63,18 @@ t_d_list *create_mt_list_from_n(int n) {
 }
 
 void insert_cell_at_a_head(t_d_list *list, t_d_cell *cell){
+    """Insert a cell in a level list at all the levels from 0 to cell->levels (at the beginning of the list)"
+    "takes as input the list and the cell to insert"
+    "modifies the list"
+    "returns nothing"
+
+    "example:"
+    ">>> insert_cell_at_a_head(list, cell)"
+    ">>> allign_and_display(list)"
+    ">>> [list head_0]-->[cell]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n"
+    "    [list head_1]-->[cell]--------->[ 2]--------->[ 4]--------->[ 6]-- >NULL\n";
+    "    [list head_2]-->[cell]----------------------->[ 4]---------------- >NULL";
+
     for (int i = 0; i < cell->levels; i++) {
         cell->next[i] = list->heads[i];
         list->heads[i] = cell;}
@@ -49,6 +82,20 @@ void insert_cell_at_a_head(t_d_list *list, t_d_cell *cell){
 }
 
 void insert_cell_at_a_particular_head(t_d_list *list, t_d_cell *cell, int level) {
+    """Insert a cell in a level list at a particular level (keeps the list sorted)"
+    "takes as input the list, the cell to insert and the level"
+    "modifies the list"
+    "returns nothing"
+
+    "example:"
+    ">>> insert_cell_at_a_particular_head(list, cell, 1)"
+    ">>> allign_and_display(list)"
+    ">>> [list head_0]----------->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n"
+    "    [list head_1]-->[cell]-->[ 1]-->[ 2]--------->[ 4]--------->[ 6]-- >NULL\n";
+
+    "As seen here, should not be used alone, but in a function like create_mt_list_from_n()";
+    "The point of this function is to insert at a deeper level than 0 and be able to jump some indexes";
+
     t_d_cell *current = list->heads[level];
     t_d_cell *prev = NULL;
 
@@ -70,6 +117,15 @@ void insert_cell_at_a_particular_head(t_d_list *list, t_d_cell *cell, int level)
 
 
 void display_a_level(t_d_list *list, int level){
+    """Display a level of a level list"
+    "takes as input the list and the level to display"
+    "prints a particular level of the list"
+    "returns nothing"
+
+    "example:"
+    ">>> display_a_level(list, 0)"
+    ">>> [list head_0]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n";
+    "";
     if (level < 0 || level >= list->max_levels) {
         printf("Invalid level\n");
         return;
@@ -86,6 +142,18 @@ void display_a_level(t_d_list *list, int level){
 }
 
 void display_all_levels(t_d_list *list){
+    """Display all the levels of a level list"
+    "takes as input the list"
+    "prints all the levels of the list"
+    "returns nothing"
+
+    "example:"
+    ">>> display_all_levels(list)"
+    ">>> [list head_0]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n";
+    "    [list head_1]-->[ 1]-->[ 2]-->[ 4]-->[ 6]-- >NULL\n";
+    "    [list head_2]-->[ 1]-->[ 4]-->[ 6]-- >NULL\n";
+
+
     for (int i = 0; i< list->max_levels; i++)
     {
         display_a_level( list, i);
@@ -94,6 +162,17 @@ void display_all_levels(t_d_list *list){
 
 
 void align_and_display(t_d_list *list) {
+    """Align the levels of a level list and display it"
+    "takes as input the list"
+    "prints the list"
+    "returns nothing"
+
+    "example:"
+    ">>> align_and_display(list)"
+    ">>> [list head_0]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n";
+    "    [list head_1]-->[ 1]-->[ 2]--------->[ 4]--------->[ 6]-- >NULL\n";
+    "    [list head_2]-->[ 1]---------------->[ 4]----------[ 6]-- >NULL\n";
+
     // Afficher le niveau 0
     printf("[list head_%d]--", 0);
     t_d_cell *current = list->heads[0];
@@ -123,6 +202,19 @@ void align_and_display(t_d_list *list) {
 }
 
 void sorted_insert(t_d_list *list, t_d_cell *cell) {
+    """OBSOLETE - NOT USED ANYMORE /!\""
+
+    """Insert a cell in a level list"
+    "takes as input the list and the cell to insert"
+    "insert the cell in the list"
+    "returns nothing"
+
+    "example:"
+    ">>> sorted_insert(list, cell)"
+    ">>> [list head_0]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL\n";
+    "    [list head_1]-->[ 1]-->[ 2]--------->[ 4]--------->[ 6]-- >NULL\n";
+    "    [list head_2]-->[ 1]---------------->[ 4]----------[ 6]-- >NULL\n";
+
     for (int i = 0; i < cell->levels; i++) {
         t_d_cell **temp = &(list->heads[i]);
         while (*temp && (*temp)->value < cell->value) {
@@ -136,6 +228,16 @@ void sorted_insert(t_d_list *list, t_d_cell *cell) {
 
 
 int classic_search(t_d_list *list, int value) {
+    """Search a value in a level list in a classical way : starts at the head of the list and goes through it one by one"
+    "takes as input the list and the value to search"
+    "returns the number of operations made to find the value";
+    "returns -1 if the value is not found"
+
+    "example:"
+    ">>> classic_search(list, 4)"
+    ">>> 4";
+    ">>> classic_search(list, 10)"
+    ">>> -1";
     t_d_cell *current = list->heads[0];
     int complexity_counter = 0;
     while (current != NULL) {
@@ -148,30 +250,27 @@ int classic_search(t_d_list *list, int value) {
     return -1; // Not found
 }
 
-int optimized_searh(t_d_list *list, int value) {
-    int level = list->max_levels - 1;
-    printf( "valeur head 0 etc (%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)\n",list->heads[0]->value,list->heads[1]->value,list->heads[2]->value,list->heads[3]->value,list->heads[4]->value,list->heads[5]->value,list->heads[6]->value,list->heads[7]->value,list->heads[8]->value,list->heads[9]->value);
-    while(list->heads[level] == NULL){level--;}
-    t_d_cell *current = list->heads[level];
-    printf("level%d, valu%d\n", current->levels, current->value);
-    while (level >= 0) {
-        while (current != NULL && current->value < value) {
-            current = current->next[level];
-            printf("level%d, valu%d\n", current->levels, current->value);
-        }
-        if (current != NULL && current->value == value) {
-            printf("trouver au niveau %d\n",level);
-            return 1; // Found
-        }
-        level--;
-        if (level >= 0 && current != NULL) {
-            current = list->heads[level];
-            printf("level%d, valu%d\n", current->levels, current->value);
-        }
-    }
-    return 0; // Not found
-}
+
 int optimized_search(t_d_list *list, int value){
+    """Search through a level list in an optimized way (sort of dichotomic search) : "
+      "Starts on the last level which only contains the middle value of the list"
+        "If the value is greater than the middle value, we go down one level and we start from the previous cell"
+        "If the value is less than the middle value, we go down one level and we start from the previous cell"
+        "As the level below contains the values at the middle between the previous middle and the start/end of the list, we can go down one level and start from the previous cell"
+        "We repeat this process until we find the value or we reach the last level"
+    "takes as input the list and the value to search"
+    "returns the number of operations made to find the value";
+    "returns -1 if the value is not found"
+
+    "example:"
+    ">>> list = create_list(3)"
+    ">>> align_and_display(list)"
+    ">>> [list head_0]-->[ 1]-->[ 2]-->[ 3]-->[ 4]-->[ 5]-->[ 6]-- >NULL"
+        "[list head_1]--------->[ 2]--------->[ 4]--------->[ 6]-- >NULL"
+        "[list head_2]----------------------->[ 4]---------------- >NULL"
+    ">>> optimized_search(list, 5)"
+    ">>> 3";
+
     int level = list->max_levels -1 ;
     int complexity_counter = 0 ;
     while(list->heads[level] == NULL){
@@ -211,6 +310,21 @@ int optimized_search(t_d_list *list, int value){
 }
 
 int research_time(t_d_list *list, int nbr_of_research, int n) {
+    """Function that measures the time taken to search an n number of random values in a list in a classic way and in an"
+      " optimized way"
+    "takes as input the list, the number of research to do and the height of the list"
+    "prints the time taken to do the research in both ways"
+    "returns nothing"
+
+    "example:"
+    ">>> list = create_list(10)"
+    ">>> research_time(list, 100000, 10)";
+    ">>> CPU time used for classic search: 0.191000\n"
+    ">>> CPU time used for optimized search: 0.020000";
+
+
+
+
     srand(time(NULL));
     clock_t start_time_classic, end_time_classic, start_time_optimized, end_time_optimized;
     double cpu_time_used_classic, cpu_time_used_optimized;
@@ -234,6 +348,7 @@ int research_time(t_d_list *list, int nbr_of_research, int n) {
     end_time_optimized = clock();
     cpu_time_used_optimized = ((double) (end_time_optimized - start_time_optimized)) / CLOCKS_PER_SEC;
     printf("CPU time used for optimized search: %f\n", cpu_time_used_optimized);
+    return 0;
 }
 
 void free_level(t_d_cell *head) {
