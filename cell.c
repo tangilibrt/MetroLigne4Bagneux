@@ -9,7 +9,7 @@ t_d_cell *create_cell(int value, int levels) {
 
     //sécurité du maloc
     if (new_cell == NULL) {
-        printf("t'a pas de memoire dans ton pc la honte");
+        printf("out of memory");
         return NULL;
     }
     new_cell->levels = levels;
@@ -18,7 +18,7 @@ t_d_cell *create_cell(int value, int levels) {
 
     if (new_cell->next == NULL) {
         free(new_cell);
-        printf("t'a pas de memoire dans ton pc la honte");
+        printf(""out of memory");
         return NULL;
     }
 
