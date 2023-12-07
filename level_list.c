@@ -1,7 +1,8 @@
 #include "cell.h"
 #include "level_list.h"
-#include <stdlib.h>
-
+#include <malloc.h>
+#include <stdio.h>
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
 t_d_list *create_mt_list(int max){
 
@@ -9,14 +10,14 @@ t_d_list *create_mt_list(int max){
     list->heads = (t_d_cell **)calloc(max, sizeof(t_d_cell *));
     list->max_levels = max ;
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 void insert_cell_at_a_head(t_d_list *list, t_d_cell *cell){
     for (int i = 0; i < cell->levels; i++) {
         cell->next[i] = list->heads[i];
         list->heads[i] = cell;}
 
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 void display_a_level(t_d_list *list, int level){
     if (level < 0 || level >= list->max_levels) {
         printf("Invalid level\n");
@@ -32,14 +33,14 @@ void display_a_level(t_d_list *list, int level){
     }
     printf(" >NULL\n");
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 void display_all_levels(t_d_list *list){
     for (int i = 0; i< list->max_levels; i++)
     {
         display_a_level( list, i);
     }
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
 void align_and_display(t_d_list *list) {
     // Afficher le niveau 0
@@ -69,7 +70,7 @@ void align_and_display(t_d_list *list) {
         printf(" >NULL\n");
     }
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 void sorted_insert(t_d_list *list, t_d_cell *cell) {
     for (int i = 0; i < cell->levels; i++) {
         t_d_cell **temp = &(list->heads[i]);
@@ -81,7 +82,7 @@ void sorted_insert(t_d_list *list, t_d_cell *cell) {
     }
 }
 
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
 int classic_search(t_d_list *list, int value) {
     t_d_cell *current = list->heads[0];
@@ -93,10 +94,9 @@ int classic_search(t_d_list *list, int value) {
     }
     return 0; // Not found
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 int optimized_searh(t_d_list *list, int value) {
     int level = list->max_levels - 1;
-    printf( "valeur head 0 etc (%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)\n",list->heads[0]->value,list->heads[1]->value,list->heads[2]->value,list->heads[3]->value,list->heads[4]->value,list->heads[5]->value,list->heads[6]->value,list->heads[7]->value,list->heads[8]->value,list->heads[9]->value);
     while(list->heads[level] == NULL){level--;}
     t_d_cell *current = list->heads[level];
     printf("level%d, valu%d\n", current->levels, current->value);
@@ -117,6 +117,7 @@ int optimized_searh(t_d_list *list, int value) {
     }
     return 0; // Not found
 }
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 int optimized_search(t_d_list *list, int value){
     int level = list->max_levels -1 ;
     while(list->heads[level] == NULL){
@@ -145,7 +146,7 @@ int optimized_search(t_d_list *list, int value){
     return 0 ;
 
 }
-
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 void free_level(t_d_cell *head) {
     while (head) {
         t_d_cell *temp = head;

@@ -1,10 +1,6 @@
-//
-// Created by ilyes on 04/11/2023.
-//
 #ifndef PROJECT_DIARY_MANAGEMENT_CELL_H
 #define PROJECT_DIARY_MANAGEMENT_CELL_H
 
-#include <stdio.h>
 
 
 typedef struct s_d_cell {
