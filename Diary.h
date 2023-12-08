@@ -8,4 +8,5 @@ typedef struct s_d_diary {
 } t_d_diary;
 
 void manage_levels( t_d_diary * diary);
+int compareStrings(char *string1, char *string2);
 #endif //PROJECT_DIARY_MANAGEMENT_DIARY_H

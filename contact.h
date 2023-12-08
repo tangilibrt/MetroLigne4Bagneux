@@ -22,7 +22,7 @@ typedef struct s_d_contact{
     char *firstname;
     int levels ;
     struct s_d_contact **next; // array de pointer
-    appointment **appointments;
+    appointment *appointments;
 } t_d_contact;
 
 char *scanString(void);

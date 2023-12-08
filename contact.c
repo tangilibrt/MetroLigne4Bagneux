@@ -28,10 +28,13 @@ char *scanString(void) {
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 void scanDate(DateTime *dt) {
     char input[100];
-    printf("Enter date and time (DD/MM/YYYY HH:MM): ");
+    printf("Enter date and time (DD/MM/YYYY HH:MM):");
+
     fgets(input, sizeof(input), stdin);
+
     // Analyse de l'entrer
     sscanf(input, "%d/%d/%d %d:%d", &dt->day, &dt->month, &dt->year, &dt->hour, &dt->minute);
+
 }
 
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
@@ -48,7 +51,7 @@ t_d_contact *create_contact(void) {
         return NULL;
     }
 
-    printf("Enter surname: ");
+    printf("Enter surname:");
     new_contact->surname = scanString();
     convertir(new_contact->surname);
     if (new_contact->surname == NULL) {
@@ -56,7 +59,7 @@ t_d_contact *create_contact(void) {
         return NULL;
     }
 
-    printf("Enter firstname: ");
+    printf("Enter firstname:");
     new_contact->firstname = scanString();
     convertir(new_contact->firstname);
     if (new_contact->firstname == NULL) {
@@ -74,38 +77,39 @@ t_d_contact *create_contact(void) {
 appointment *creat_apointem (void){
 
     appointment *new_appointment = (appointment *)malloc(sizeof(appointment));
-    if (new_appointment == NULL) {
-        printf("t'a pas de memoire dans ton pc la hont");
-        return NULL;
-    }
-    printf("Description of the appointement (max1024 carater):  ");
+
+    printf("Description of the appointement (max1024 carater):");
     new_appointment->purpose= scanString();
     if (new_appointment->purpose == NULL) {
         free(new_appointment->purpose);
-        new_appointment->purpose = NULL;
     }
 
-    printf("when dos it began:\n ");
+    printf("when dos it began:\n");
     DateTime *dt;
     scanDate(dt);
     new_appointment->start_time = dt;
 
-    printf("when dos it end:\n ");
-    DateTime *dt2;
-    scanDate(dt2);
-    new_appointment->start_time = dt2;
+    printf("when dos it end:\n");
+
+    scanDate(dt);
+    new_appointment->duration= dt;
+
     new_appointment->next = NULL;
+
     return new_appointment;
 }
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
 void view_apo(t_d_contact *cont){
-    printf(" march ici 2");
-    appointment *apo = cont->appointments[0] ;
-    printf(" march ici 3");
+
+    appointment *apo = cont->appointments ;
+    while (apo != NULL){
         printf("\n\n\nThe next appointment will take place in the :%d/%d/%d",apo->start_time->day,apo->start_time->month,apo->start_time->year);
         printf("\nAnd its will last forme %d:%d to %d:%d",apo->start_time->hour,apo->start_time->minute,apo->duration->hour,apo->duration->minute);
         printf("\n\nThe appointment is :%s",apo->purpose);
         printf("\n\n----------------------------------------------------------------------------------------------\n");
+        apo = apo->next;
+    }
+
 
 }
