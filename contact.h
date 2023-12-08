@@ -16,7 +16,6 @@ typedef struct s_appointment {
     struct s_appointment *next;
 } appointment;
 
-
 typedef struct s_d_contact{
     char *surname;
     char *firstname;

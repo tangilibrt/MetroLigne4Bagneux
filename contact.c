@@ -111,5 +111,4 @@ void view_apo(t_d_contact *cont){
         apo = apo->next;
     }
 
-
 }
