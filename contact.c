@@ -26,15 +26,70 @@ char *scanString(void) {
     return str;
 }
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+
+int isValidDate(DateTime *dt) {
+    // Vérifier l'année
+    if (dt->year < 1900 || dt->year > 2100) {
+        return 0;
+    }
+
+    // Vérifier le mois
+    if (dt->month < 1 || dt->month > 12) {
+        return 0;
+    }
+
+    // Vérifier le jour
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    // Vérifier les années bissextiles pour février
+    if (dt->month == 2 && (dt->year % 4 == 0 && (dt->year % 100 != 0 || dt->year % 400 == 0))) {
+        daysInMonth[1] = 29;
+    }
+
+    if (dt->day < 1 || dt->day > daysInMonth[dt->month - 1]) {
+        return 0;
+    }
+
+    // Vérifier l'heure
+    if (dt->hour < 0 || dt->hour > 23) {
+        return 0;
+    }
+
+    // Vérifier les minutes
+    if (dt->minute < 0 || dt->minute > 59) {
+        return 0;
+    }
+
+    return 1;
+}
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+
+
+
 void scanDate(DateTime *dt) {
+
+
     char input[100];
-    printf("Enter date and time (DD/MM/YYYY HH:MM):");
+    printf("Enter date and time (DD/MM/YYYY HH:MM): ");
 
-    fgets(input, sizeof(input), stdin);
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+        printf("Error reading input.\n");
+        return;
+    }
 
-    // Analyse de l'entrer
-    sscanf(input, "%d/%d/%d %d:%d", &dt->day, &dt->month, &dt->year, &dt->hour, &dt->minute);
+    // Vérifier si le format est correct
+    if (sscanf(input, "%d/%d/%d %d:%d", &dt->day, &dt->month, &dt->year, &dt->hour, &dt->minute) != 5) {
+        printf("Invalid format.\n");
+        return;
+    }
 
+    // Valider la date et l'heure
+    if (!isValidDate(dt)) {
+        printf("Invalid date or time.\n");
+        return;
+    }
+    return;
 }
 
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
@@ -67,9 +122,16 @@ t_d_contact *create_contact(void) {
         free(new_contact);
         return NULL;
     }
+    new_contact->levels=4;
+    new_contact->next = (t_d_contact **)malloc(new_contact->levels * sizeof(t_d_contact *));
 
     new_contact->appointments = NULL;
-    new_contact->levels=0;
+    new_contact->next[0] = NULL;
+    new_contact->next[1] = NULL;
+    new_contact->next[2] = NULL;
+    new_contact->next[3] = NULL;
+
+
 
     return new_contact;
 }
@@ -85,8 +147,9 @@ appointment *creat_apointem (void){
     }
 
     printf("when dos it began:\n");
-    DateTime *dt;
+    DateTime *dt=(DateTime *)malloc(sizeof(DateTime));;
     scanDate(dt);
+
     new_appointment->start_time = dt;
 
     printf("when dos it end:\n");

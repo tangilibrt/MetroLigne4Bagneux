@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <string.h>
+
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 t_d_diary *create_mt_diary(int max){
 
@@ -67,7 +69,7 @@ int compareStrings(char *string1, char *string2) {
 }
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 
-void sorted_insert(t_d_diary *list, t_d_contact *cell) {
+void sorted_insert_diary(t_d_diary *list, t_d_contact *cell) {
     for (int i = 0; i < cell->levels; i++) {
         t_d_contact **temp = &(list->heads[i]);
         while (*temp && compareStrings(cell->surname,temp[i]->surname)==1) {
@@ -76,4 +78,143 @@ void sorted_insert(t_d_diary *list, t_d_contact *cell) {
         cell->next[i] = *temp;
         *temp = cell;
     }
+}
+
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+t_d_contact *optimized_searh_diary(t_d_diary *list, char *value) {
+    int level = list->max_levels - 1;
+    t_d_contact *current = list->heads[level];
+    printf("level%d, valu%s\n", current->levels, current->firstname);
+    while (level >= 0) {
+        while (current != NULL && compareStrings(current->firstname, value)==3) {
+            current = current->next[level];
+            printf("level%d, valu%d\n", current->levels, current->firstname);
+        }
+
+        if (current != NULL && compareStrings(current->firstname, value)==2) {
+            printf("trouver au niveau %d\n",level);
+            return current; // Found
+        }
+        level--;
+        if (level >= 0 && current != NULL) {
+            current = list->heads[level];
+            printf("level%d, valu%d\n", current->levels, current->firstname);
+        }
+    }
+    return NULL; // Not found
+}
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+void insert_contact(t_d_diary *diary, t_d_contact *contact) {
+    if (diary->heads[1]==NULL) {
+        printf("the diary is empty\n");
+        for (int level = 1; level <= 4 ; level++) {
+            diary->heads[level] = (t_d_contact *)malloc(sizeof(t_d_contact));
+            diary->heads[level]->next = NULL;
+            diary->heads[level]->surname = NULL;
+            diary->heads[level]->firstname = NULL;
+
+            memcpy(diary->heads[level], contact, sizeof(t_d_contact));
+        }
+    } else {
+        printf("the diary is not empty\n");
+        t_d_contact **holder = (t_d_contact **)malloc(sizeof(t_d_contact *));
+        t_d_contact **highestPrevious = (t_d_contact **)malloc(sizeof(t_d_contact *));
+        t_d_contact **memory = diary->heads;
+        highestPrevious = diary->heads;
+
+        int foundPlace = 0;
+        int level = 4;
+        while (memory[level]->next != NULL && level > 0) {
+            printf("entered the while loop at level %d\n", level);
+            holder[level]->next[level] = memory[level]->next[level];
+            if (memory[level]->next[level]->surname[4-level] == contact->surname[4-level] && foundPlace == 0) {
+                printf("entered the if == statement at level %d\n", level);
+                if (strcmp(memory[level]->next[level]->surname, contact->surname) == 0) {
+                    contact->next[level] = memory[level]->next[level];
+                    memory[level]->next[level] = contact;
+                }
+
+                level--;
+                if (level == 1) {
+                    foundPlace = 1;
+                    contact->next[level] = memory[level]->next[level];
+                    memory[level]->next[level] = contact;
+
+                }
+            }
+            if (strcmp(memory[level]->next[level]->surname, contact->surname) == 0 && foundPlace == 1)
+            {
+                printf("entered the if strcmp & fP==1 statement at level %d\n", level);
+                contact->next[level] = memory[level]->next[level];
+                memory[level]->next[level] = contact;
+                level--;
+                memory[level] = highestPrevious[level];
+            }
+            else if (memory[level]->next[level]->surname[4-level] > contact->surname[4-level]) {
+                printf("entered the if > statement at level %d\n", level);
+                contact->next[level] = memory[level]->next[level];
+                memory[level]->next[level] = contact;
+                foundPlace = 1;
+                for (int i = 1; i <= level; i++) {
+                    highestPrevious[i] = memory[level];
+                }
+                level--;
+            }
+
+            else if (memory[level]->next[level]->surname[4-level] < contact->surname[4-level]){
+                printf("entered the if < statement at level %d\n", level);
+                memory[level] = memory[level]->next[level];
+            }
+
+        }
+        if (memory[level]->next[level] == NULL) {
+            printf("entered the if == NULL statement at level %d\n", level);
+            memory[level]->next[level] = contact;
+            level--;
+        }
+        free(contact);
+        free(holder);
+        free(highestPrevious);
+    }
+
+}
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+void display_a_level_diary(t_d_diary *list, int level){
+    if (level < 0 || level >= list->max_levels) {
+        printf("Invalid level\n");
+        return;
+    }
+    printf("[list head_%d]--", level);
+
+    t_d_contact *cell_actuel = list->heads[level];
+
+    while (cell_actuel != NULL) {
+        printf(">[ %s_%s]--", cell_actuel->surname,cell_actuel->firstname);
+        cell_actuel = cell_actuel->next[level];
+
+    }
+    printf(" >NULL\n");
+}
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+void display_all_levels_diary(t_d_diary *list){
+
+    for (int i = 0; i < list->max_levels; i++)
+    {
+        display_a_level_diary( list, i);
+    }
+}
+// yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+void insert_cell_at_a_head_diary(t_d_diary *list, t_d_contact *cell){
+
+    for (int i = 0; i < list->max_levels; i++) {
+        list->heads[i] = cell;}
+
+}
+
+void creat_and_insert(t_d_diary *list){
+
+
+
+
 }
