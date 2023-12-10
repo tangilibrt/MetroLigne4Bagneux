@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "Diary.h"
+
+
 
 // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 char *scanString(void) {
@@ -78,18 +81,18 @@ appointment *creat_apointem (void){
 
     appointment *new_appointment = (appointment *)malloc(sizeof(appointment));
 
-    printf("Description of the appointement (max1024 carater):");
+    printf("Description of the appointment (max1024 character):");
     new_appointment->purpose= scanString();
     if (new_appointment->purpose == NULL) {
         free(new_appointment->purpose);
     }
 
-    printf("when dos it began:\n");
-    DateTime *dt;
+    printf("when does it begin:\n");
+    DateTime *dt = NULL;
     scanDate(dt);
     new_appointment->start_time = dt;
 
-    printf("when dos it end:\n");
+    printf("when does it ends:\n");
 
     scanDate(dt);
     new_appointment->duration= dt;
